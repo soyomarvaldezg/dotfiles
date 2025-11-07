@@ -1,6 +1,6 @@
 # My Dotfiles
 
-   Feel free to go through my system dotfiles
+Feel free to go through my system dotfiles
 
 ## Basics
 
@@ -34,7 +34,7 @@ Ensure you have the following installed on your system
 First, check out the dotfiles repo in your $HOME directory using git
 
 ```
-$ git clone git@github.com:valdezdata/dotfiles.git
+$ git clone git@github.com:soyomarvaldezg/dotfiles.git
 $ cd dotfiles
 ```
 
