@@ -1,7 +1,8 @@
 refresh-on-startup no
 
-# externel browser
-browser "/usr/bin/firefox %u"
+# external browser
+# browser "/usr/bin/arc %u"
+browser "open -a 'Arc' %u"
 
 # unbind keys
 unbind-key ENTER

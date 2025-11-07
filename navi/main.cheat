@@ -1,10 +1,10 @@
 % tmux
 
 # attach to a session with the name my_session
-echo "tmux a -t my_session"
+tmux a -t <my_session>
 
 # start a new session with the name my_session
-echo "tmux new -s my_session"
+tmux new -s <my_session>
 
 # rename sessions
 echo "ctrl + b $"
@@ -120,6 +120,9 @@ git log --graph --topo-order --pretty='%w(100,0,6)%C(yellow)%h%C(bold)%C(black)%
 # git log oneline
 git log --oneline
 
+# Remove from GitHub only
+git rm -r --cached <data/generated/>
+
 % password store
 
 # create default secure password
@@ -211,3 +214,32 @@ openssl enc -aes-256-cbc -md sha512 -pbkdf2 -iter 250000 -salt -in images.tar.gz
 
 # decrypt example
 openssl enc -aes-256-cbc -d -md sha512 -pbkdf2 -iter 250000 -salt -in images.tar.gz.enc -out images.tar.gz
+
+% euporie
+
+# MAIN: euporie console full custom config
+euporie-console --edit-mode=vi --autocomplete --autosuggest=smart --line-numbers --no-cursor-blink
+
+# euporie console with vim mode and dracula theme
+euporie-console --edit-mode=vi --syntax-theme=dracula --color-scheme=dark --no-mouse-support
+
+# euporie notebook with vim mode
+euporie-notebook --edit-mode=vi --syntax-theme=dracula --color-scheme=dark <notebook>
+
+# euporie preview with syntax theme
+euporie-preview --syntax-theme=dracula --color-scheme=dark <notebook>
+
+# euporie console minimal (no mouse, vim mode only)
+euporie-console --edit-mode=vi --no-mouse-support --color-scheme=dark
+
+
+% github, gh, cli
+
+# List all files in a GitHub repository
+gh api '/repos/soyomarvaldezg/<repo>/git/trees/main?recursive=true' -q '.tree[] | select(.type=="blob") | .path'
+
+# List repository structure with file types
+gh api '/repos/soyomarvaldezg/<repo>/git/trees/main?recursive=true' -q '.tree[] | "\(.type)\t\(.path)"'
+
+# List files with sizes (prettier output)
+gh api '/repos/soyomarvaldezg/<repo>/git/trees/main?recursive=true' -q '.tree[] | select(.type=="blob") | "\(.path) (\(.size) bytes)"'

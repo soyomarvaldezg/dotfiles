@@ -1,0 +1,5 @@
+font-size = 24
+font-family = "JetBrains Mono"
+theme = "TokyoNight Storm"
+copy-on-select = clipboard
+background-opacity = 0.95

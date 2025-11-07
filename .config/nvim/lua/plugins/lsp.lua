@@ -15,6 +15,9 @@ require("mason-lspconfig").setup({
 		"tailwindcss",
 		"lua_ls",
 		"bashls",
+		-- "golangci-lint",
+		-- "yamllint",
+		-- "shellcheck"
 	},
 	automatic_installation = true,
 })
@@ -117,7 +120,8 @@ lspconfig.yamlls.setup({
 		yaml = {
 			schemas = {
 				["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
-				["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "docker-compose*.yml",
+				["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] =
+				"docker-compose*.yml",
 			},
 		},
 	},
@@ -160,6 +164,8 @@ lspconfig.lua_ls.setup({
 					[vim.fn.expand("$VIMRUNTIME/lua")] = true,
 					[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
 				},
+				maxPreload = 5000, -- in KB (5MB)
+				preloadFileSize = 5000, -- in KB (5MB)
 			},
 		},
 	},

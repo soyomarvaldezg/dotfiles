@@ -8,5 +8,7 @@ use = "yazi-rs/plugins:no-status"
 rev = "a1738e8"
 hash = "513a23ac28e1eaa626f3a1bb6c8130d0"
 
-[flavor]
-deps = []
+[[flavor.deps]]
+use = "dangooddd/kanagawa"
+rev = "a0b1d9d"
+hash = "abfb0b2371259b2c8adfc7b617c3d7e5"

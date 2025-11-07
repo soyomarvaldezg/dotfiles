@@ -1,14 +1,27 @@
 local conform = require("conform")
 
 conform.setup({
+	-- A list of formatters available to conform.
+	-- This is not required, but it's recommended
+	formatters = {
+		ruff_fix = {
+			command = "ruff",
+			args = { "check", "--select", "I", "--fix", "-" },
+			stdin = true,
+		},
+	},
+
+	-- Map filetypes to formatters
 	formatters_by_ft = {
 		lua = { "stylua" },
-		-- Python: comprehensive formatting with import sorting and fixes
-		python = {
-			"ruff_format", -- Primary formatter
-			"ruff_fix", -- Code fixes
-		},
-		-- Web development
+
+		-- Python: Fix imports and then format
+		python = { "ruff_fix", "ruff_format" },
+
+		-- Go: goimports handles both formatting and imports
+		go = { "goimports" },
+
+		-- Web (prettier is king)
 		javascript = { "prettier" },
 		typescript = { "prettier" },
 		javascriptreact = { "prettier" },
@@ -16,47 +29,40 @@ conform.setup({
 		css = { "prettier" },
 		html = { "prettier" },
 		json = { "prettier" },
-		jsonc = { "prettier" },
 		yaml = { "prettier" },
 		markdown = { "prettier" },
 
-		-- Infrastructure and DevOps
-		terraform = {
-			"terraform_fmt",
-		},
-		dockerfile = { "prettier" },
+		-- Infrastructure & DevOps
+		terraform = { "terraform" },
+		dockerfile = { "prettier" }, -- hadolint is also a great linter
 
-		-- Shell scripting
+		-- Shell
 		sh = { "shfmt" },
 		bash = { "shfmt" },
 
-		-- Golang
-		go = {
-			"goimports", -- Handles imports
-			"gofmt", -- Standard formatting
-		},
-
 		-- SQL
 		sql = { "sql-formatter" },
+
+		-- TOML
+		toml = { "taplo" },
 	},
 
-	-- -- Format options
-	-- format_on_save = {
-	--   timeout_ms = 500,
-	--   lsp_fallback = true,
-	--   async = false,
-	-- },
-
-	-- Disable format on save for TypeScript and TypeScriptReact
+	-- Configure format on save
 	format_on_save = function(bufnr)
-		local ft = vim.bo[bufnr].filetype
-		if ft == "typescript" or ft == "typescriptreact" then
+		-- A table of filetypes to disable formatting for
+		-- You might do this if you have a conflicting LSP formatter, for example
+		local disabled_fts = {
+			-- typescript = true,
+			-- typescriptreact = true,
+		}
+
+		if disabled_fts[vim.bo[bufnr].filetype] then
 			return
 		end
+
 		return {
 			timeout_ms = 500,
-			lsp_fallback = true,
-			async = false,
+			lsp_fallback = true, -- Fallback to LSP formatting if conform isn't configured
 		}
 	end,
 
@@ -68,7 +74,7 @@ conform.setup({
 vim.keymap.set({ "n", "v" }, "<leader>mp", function()
 	conform.format({
 		lsp_fallback = true,
-		async = false,
-		timeout_ms = 500,
+		async = false, -- Or true if you prefer
+		timeout_ms = 1000, -- Give it a bit more time for larger files
 	})
-end, { desc = "Format file or range (in visual mode)" })
+end, { desc = "Format file or range (conform)" })

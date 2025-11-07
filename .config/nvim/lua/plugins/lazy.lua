@@ -20,6 +20,7 @@ vim.o.termguicolors = true
 --
 
 require("lazy").setup({
+
 	--
 	-- COMMENTS
 	--
@@ -51,6 +52,12 @@ require("lazy").setup({
 		lazy = false,
 		priority = 1000,
 		opts = {},
+	},
+
+	{
+		"tribela/transparent.nvim",
+		event = "VimEnter",
+		config = true,
 	},
 
 	--
@@ -85,40 +92,6 @@ require("lazy").setup({
 	--
 	-- CODE
 	--
-
-	-- codecompanion
-	{
-		"olimorris/codecompanion.nvim",
-		opts = {},
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-treesitter/nvim-treesitter",
-		},
-		config = function()
-			require("plugins.codecompanion")
-		end,
-	},
-
-	-- codeium
-	{
-		"Exafunction/codeium.vim",
-		event = "BufEnter",
-		config = function()
-			-- Change "<C-g>" here to any keycode you like.
-			vim.keymap.set("i", "<C-e>", function()
-				return vim.fn["codeium#Accept"]()
-			end, { expr = true, silent = true })
-			vim.keymap.set("i", "<c-n>", function()
-				return vim.fn["codeium#CycleCompletions"](1)
-			end, { expr = true, silent = true })
-			vim.keymap.set("i", "<c-p>", function()
-				return vim.fn["codeium#CycleCompletions"](-1)
-			end, { expr = true, silent = true })
-			vim.keymap.set("i", "<c-x>", function()
-				return vim.fn["codeium#Clear"]()
-			end, { expr = true, silent = true })
-		end,
-	},
 
 	-- disables certain fetaures if the opened file is big
 	"LunarVim/bigfile.nvim",
@@ -205,6 +178,33 @@ require("lazy").setup({
 		end,
 	},
 
+	-- Discord Rich Presence
+	{
+		"andweeb/presence.nvim",
+		event = "VeryLazy",
+		config = function()
+			require("presence").setup({
+				-- General options
+				auto_update = true,
+				neovim_image_text = "Neovim",
+				main_image = "neovim", -- Show Neovim logo instead of file type
+				show_time = true, -- Shows elapsed time
+				enable_line_number = false, -- Don't show line numbers
+
+				-- Privacy settings - hide filenames and project names
+				editing_text = "Editing code",
+				file_explorer_text = "Browsing files",
+				git_commit_text = "Committing changes",
+				plugin_manager_text = "Managing plugins",
+				reading_text = "Reading code",
+				workspace_text = "Working on a project", -- Hides actual project name
+
+				-- Disable buttons (optional - removes "View Repository" button)
+				buttons = false,
+			})
+		end,
+	},
+
 	--
 	-- MARKDOWN
 	--
@@ -222,6 +222,14 @@ require("lazy").setup({
 	--
 	-- UI
 	--
+
+	-- Zoom plugin
+	{
+		"troydm/zoomwintab.vim",
+		keys = {
+			{ "<leader>z", "<cmd>ZoomWinTabToggle<cr>", desc = "Toggle zoom" },
+		},
+	},
 
 	-- Yazi
 	{

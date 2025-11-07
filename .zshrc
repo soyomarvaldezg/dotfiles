@@ -100,6 +100,7 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 # Shell integrations
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
+eval "$(direnv hook zsh)"
 
 # Aliases
 alias c='clear'
@@ -112,13 +113,20 @@ alias mv='mv -v'
 alias cp='cp -v'
 alias cat='bat'
 alias ls='eza --icons --git'
-alias lt='eza --tree --level=2  --icons --git -a'
+alias lt='eza --tree --icons'
 alias duck='w3m -4 https://lite.duckduckgo.com/lite'
-alias calendar='khal interactive'
-alias todo='omm'
 alias doc-code='doc-code.sh'
+alias battery='pmset -g batt'
 
 # Environment variables
 export EDITOR=nvim
 export VISUAL=nvim
-export PATH="$HOME/bin:$HOME/.local/bin:$HOME/go/bin:/usr/local/sbin:/usr/local/bin:$PATH"
+export PATH="/opt/homebrew/bin:$HOME/go/bin:$HOME/.local/bin:$HOME/bin:$HOME/scripts:$PATH"
+# export PATH="$HOME/bin:$HOME/.local/bin:$HOME/scripts:$HOME/go/bin:/usr/local/sbin:/usr/local/bin:$PATH"
+
+# Shorten urls
+shorturl() {
+    curl -s "https://is.gd/create.php?format=simple&url=$1"
+    echo
+}
+
