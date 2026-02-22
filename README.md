@@ -22,24 +22,24 @@ Feel free to go through my system dotfiles
 - For terminal font, I use Iosevka Nerd Font.
 - For shell prompt, I use oh-my-posh.
 
-## Requirements
+# 🚀 Installation
 
-Ensure you have the following installed on your system
+### Option 1 — Fresh Machine (Recommended)
 
-- Git
-- Chezmoi
-
-## Installation
-
-First, check out the dotfiles repo in your $HOME directory using git
+This installs chezmoi and applies the dotfiles in one command:
 
 ```
-$ git clone git@github.com:soyomarvaldezg/dotfiles.git
-$ cd dotfiles
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply YOUR_GITHUB_USERNAME
 ```
 
-then use GNU stow to create symlinks
+### Option 2 — If Chezmoi Is Already Installed
 
 ```
-$ stow .
+chezmoi init --apply YOUR_GITHUB_USERNAME
+```
+
+If your repository **is not named dotfiles**, use:
+
+```
+chezmoi init --apply https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME.git
 ```
