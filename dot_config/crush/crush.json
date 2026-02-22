@@ -1,0 +1,125 @@
+{
+  "$schema": "https://charm.land/crush.json",
+
+  "options": {
+    "context_paths": [".skills"]
+  },
+
+  "mcp": {
+    "zai-vision": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@z_ai/mcp-server"],
+      "env": {
+        "Z_AI_API_KEY": "$(pass show token/api/zai)",
+        "Z_AI_MODE": "ZAI"
+      },
+      "timeout": 120
+    },
+
+    "web-search-prime": {
+      "type": "http",
+      "url": "https://api.z.ai/api/mcp/web_search_prime/mcp",
+      "headers": {
+        "Authorization": "$(echo Bearer $(pass show token/api/zai))"
+      },
+      "timeout": 120
+    },
+
+    "web-reader": {
+      "type": "http",
+      "url": "https://api.z.ai/api/mcp/web_reader/mcp",
+      "headers": {
+        "Authorization": "$(echo Bearer $(pass show token/api/zai))"
+      },
+      "timeout": 120
+    },
+
+    "zread": {
+      "type": "http",
+      "url": "https://api.z.ai/api/mcp/zread/mcp",
+      "headers": {
+        "Authorization": "$(echo Bearer $(pass show token/api/zai))"
+      },
+      "timeout": 120
+    }
+  },
+
+  "providers": {
+    "zai": {
+      "type": "openai",
+      "base_url": "https://api.z.ai/api/coding/paas/v4",
+      "api_key": "$(pass show token/api/zai)"
+    },
+    "cerebras": {
+      "type": "openai-compat",
+      "base_url": "https://api.cerebras.ai/v1",
+      "api_key": "$(pass show token/api/cerebras)"
+    },
+    "groq": {
+      "type": "openai-compat",
+      "base_url": "https://api.groq.com/openai/v1",
+      "api_key": "$(pass show token/api/groq)"
+    },
+    "gemini": {
+      "type": "openai-compat",
+      "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
+      "api_key": "$(pass show token/api/gemini)"
+    },
+    "ollama": {
+      "name": "Ollama",
+      "type": "openai-compat",
+      "base_url": "http://localhost:11434/v1/",
+      "models": [
+        {
+          "id": "llama3.2:3b-instruct-q4_K_M",
+          "name": "Llama 3.2 3B instruct",
+          "context_window": 256000,
+          "default_max_tokens": 20000
+        },
+        {
+          "id": "qwen2.5-coder:7b-instruct-q4_K_M",
+          "name": "Qwen 2.5 Coder 7B instruct",
+          "context_window": 256000,
+          "default_max_tokens": 20000
+        },
+        {
+          "id": "llama3:8b-instruct-q4_K_M",
+          "name": "Llama 3 8B instruct",
+          "context_window": 256000,
+          "default_max_tokens": 20000
+        }
+      ]
+    }
+  },
+
+  "lsp": {
+    "typescript": {
+      "command": "/opt/homebrew/bin/typescript-language-server",
+      "args": ["--stdio"],
+      "filetypes": ["ts", "tsx", "js", "jsx"]
+    },
+    "go": {
+      "command": "/Users/omarvaldez/go/bin/gopls",
+      "filetypes": ["go", "mod"]
+    },
+    "python": {
+      "command": "/Users/omarvaldez/.local/bin/pylsp",
+      "filetypes": ["py"]
+    },
+    "sql": {
+      "command": "sqls",
+      "filetypes": ["sql"]
+    },
+    "yaml": {
+      "command": "/opt/homebrew/bin/yaml-language-server",
+      "args": ["--stdio"],
+      "filetypes": ["yml", "yaml", "json"]
+    },
+    "bash": {
+      "command": "/opt/homebrew/bin/bash-language-server",
+      "args": ["start"],
+      "filetypes": ["sh", "bash", "zsh"]
+    }
+  }
+}
